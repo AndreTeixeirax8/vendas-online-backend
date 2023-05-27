@@ -15,8 +15,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       password:process.env.DB_PASSWORD,
       port:Number(process.env.DB_PORT),
       username:process.env.DB_USERNAME,
-      synchronize:true, //quando subir api ele vai criar o banco
-      entities:[`${__dirname}/**/*.entity{.js,.ts}`]
+     // synchronize:true, //quando subir api ele vai criar o banco
+      entities:[`${__dirname}/**/*.entity{.js,.ts}`],
+      migrations:[`${__dirname}/migration/{.ts,*.js}`],
+      migrationsRun:true,
+
 
     })
     ,UserModule],
@@ -24,3 +27,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   providers: [],
 })
 export class AppModule {}
+
+/**Link do github com o projeto do professor
+ * https://github.com/juliossena/vendas-online-backend
+ */
