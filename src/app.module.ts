@@ -39,7 +39,7 @@ import { JwtModule } from '@nestjs/jwt';
 })
 export class AppModule {}
 
-/**Link do github com o projeto do professor
+/**Link do github com o projeto completo do professor Julio
  * https://github.com/juliossena/vendas-online-backend
  * https://github.com/juliossena/vendas-online-backend/commits
  */
