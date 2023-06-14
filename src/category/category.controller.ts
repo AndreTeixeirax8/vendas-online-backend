@@ -6,7 +6,7 @@ import { ReturnCategory } from './dtos/return-category.dto';
 import { CreateCategoryDto } from './dtos/create-category.dto';
 import { CategoryEntity } from './entities/category.entity';
 
-@Roles(UserType.ADMIN, UserType.USER)
+@Roles(UserType.ADMIN)
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
