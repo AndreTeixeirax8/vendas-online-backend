@@ -8,7 +8,8 @@ import {
   } from '@nestjs/common';
 
   import { OrderService } from './order.service';
-import { CreateOrderDTO } from './create-order.dto';
+import { UserId } from 'src/decorators/use-id.decorator';
+import { CreateOrderDTO } from './dtos/create-order.dto';
   
   @Controller('order')
   export class OrderController {
@@ -19,7 +20,8 @@ import { CreateOrderDTO } from './create-order.dto';
     async createOrder(
       @Body() createOrderDTO: CreateOrderDTO,
       @Param('cartId') cartId: number,
+      @UserId() userId: number,
     ) {
-      return this.orderService.createOrder(createOrderDTO, cartId);
+      return this.orderService.createOrder(createOrderDTO, cartId, userId);
     }
   }

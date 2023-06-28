@@ -2,10 +2,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaymentEntity } from './entities/payment.entity';
 import { Repository } from 'typeorm';
-import { CreateOrderDTO } from 'src/order/create-order.dto';
 import { PaymentCreditCardEntity } from './entities/payment-credit-card.entity';
 import { PaymentType } from 'src/payment-status/enums/payment-type.enum';
 import { PaymentPixEntity } from './entities/payment-pix.entity';
+import { CreateOrderDTO } from 'src/order/dtos/create-order.dto';
 
 @Injectable()
 export class PaymentService {
