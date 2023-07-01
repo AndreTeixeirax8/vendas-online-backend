@@ -15,13 +15,12 @@ import { CreateOrderDTO } from './dtos/create-order.dto';
   export class OrderController {
     constructor(private readonly orderService: OrderService) {}
   
-    @Post('/cart/:cartId')
+    @Post()
     @UsePipes(ValidationPipe)
     async createOrder(
       @Body() createOrderDTO: CreateOrderDTO,
-      @Param('cartId') cartId: number,
       @UserId() userId: number,
     ) {
-      return this.orderService.createOrder(createOrderDTO, cartId, userId);
+      return this.orderService.createOrder(createOrderDTO,userId);
     }
   }
