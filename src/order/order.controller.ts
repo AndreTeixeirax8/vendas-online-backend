@@ -21,7 +21,7 @@ import { OrderEntity } from './entities/order.entity';
     async createOrder(
       @Body() createOrderDTO: CreateOrderDTO,
       @UserId() userId: number,
-    ) {
+      ): Promise<OrderEntity> {
       return this.orderService.createOrder(createOrderDTO,userId);
     }
 
