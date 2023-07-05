@@ -50,5 +50,5 @@ export class AppModule {}
 /**Link do github com o projeto completo do professor Julio
  * https://github.com/juliossena/vendas-online-backend
  * https://github.com/juliossena/vendas-online-backend/commits
- * proxima aula fb12c6d primeira pagina
+ * proxima aula   e8f8f26 commit 2585546 primeira pagina
  */
