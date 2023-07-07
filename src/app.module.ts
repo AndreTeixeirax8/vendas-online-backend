@@ -38,7 +38,10 @@ import { OrderProductModule } from './order-product/order-product.module';
 
 
     })
-    ,UserModule, StateModule, CityModule, AddressModule, CacheModule, AuthModule,JwtModule, CategoryModule, ProductModule, CartModule, CartProductModule, PaymentStatusModule, PaymentModule, OrderModule, OrderProductModule],
+    ,UserModule, StateModule, CityModule, AddressModule, CacheModule,
+     AuthModule,JwtModule, CategoryModule, ProductModule, CartModule,
+      CartProductModule, PaymentStatusModule, PaymentModule, OrderModule,
+       OrderProductModule],
   controllers: [],
   providers: [  {
     provide: APP_GUARD,

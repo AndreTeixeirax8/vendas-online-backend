@@ -11,6 +11,9 @@ import {
 import { UserId } from 'src/decorators/use-id.decorator';
 import { CreateOrderDTO } from './dtos/create-order.dto';
 import { OrderEntity } from './entities/order.entity';
+import { Roles } from 'src/decorators/roles.decorator';
+import { UserType } from 'src/user/enum/user-type.enum';
+import { ReturnOrderDTO } from './dtos/return-order.dto';
   
   @Controller('order')
   export class OrderController {
@@ -28,5 +31,13 @@ import { OrderEntity } from './entities/order.entity';
     @Get()
     async findOrdersByUserId(@UserId() userId: number): Promise<OrderEntity[]> {
       return this.orderService.findOrdersByUserId(userId);
+    }
+
+    @Roles(UserType.ADMIN)
+    @Get('/all')
+    async findAllOrders(): Promise<ReturnOrderDTO[]> {
+      return (await this.orderService.findAllOrders()).map(
+        (order) => new ReturnOrderDTO(order),
+      );
     }
   }
