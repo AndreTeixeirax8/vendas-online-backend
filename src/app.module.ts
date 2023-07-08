@@ -18,6 +18,7 @@ import { PaymentStatusModule } from './payment-status/payment-status.module';
 import { PaymentModule } from './payment/payment.module';
 import { OrderModule } from './order/order.module';
 import { OrderProductModule } from './order-product/order-product.module';
+import { CorreiosModule } from './correios/correios.module';
 
 @Module({
   imports: [
@@ -41,7 +42,8 @@ import { OrderProductModule } from './order-product/order-product.module';
     ,UserModule, StateModule, CityModule, AddressModule, CacheModule,
      AuthModule,JwtModule, CategoryModule, ProductModule, CartModule,
       CartProductModule, PaymentStatusModule, PaymentModule, OrderModule,
-       OrderProductModule],
+       OrderProductModule,
+       CorreiosModule],
   controllers: [],
   providers: [  {
     provide: APP_GUARD,
@@ -53,5 +55,5 @@ export class AppModule {}
 /**Link do github com o projeto completo do professor Julio
  * https://github.com/juliossena/vendas-online-backend
  * https://github.com/juliossena/vendas-online-backend/commits
- * proxima aula   e8f8f26 commit 2585546 primeira pagina
+ * proxima aula   feat: insert integration in correios   e5111ef primeira pagina
  */
