@@ -9,11 +9,13 @@ import { ProductEntity } from './entities/product.entity';
 import { DeleteResult} from 'typeorm';
 import { UpdateProductDTO } from './dtos/update-product.dto';
 
-@Roles(UserType.ADMIN, UserType.USER)
+
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  
+  @Roles(UserType.ADMIN, UserType.USER)
   @Get()
   async findAll(): Promise<ReturnProduct[]> {
     return (await this.productService.findAll([], true)).map(
@@ -46,5 +48,13 @@ export class ProductController {
     @Param('productId') productId: number,
   ): Promise<ProductEntity> {
     return this.productService.updateProduct(updateProduct, productId);
+  }
+
+  @Get('/:idProduct/delivery/:cep')
+  async findPriceDelivery(
+    @Param('idProduct') idProduct: number,
+    @Param('cep') cep: string,
+  ): Promise<any> {
+    return this.productService.findPriceDelivery(cep, idProduct);
   }
 }
