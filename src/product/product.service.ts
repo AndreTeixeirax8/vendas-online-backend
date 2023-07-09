@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryService } from '../category/category.service';
 import { DeleteResult, In, Repository } from 'typeorm';
@@ -9,6 +9,7 @@ import { CountProduct } from './dtos/count-product.dto';
 import { CorreiosService } from 'src/correios/correios.service';
 import { SizeProductDTO } from 'src/correios/dtos/size-product.dto';
 import { CdServiceEnum } from 'src/correios/enums/cd-service.enum';
+import { ReturnPriceDeliveryDto } from './return-price-delivery.dto';
 
 
 @Injectable()
@@ -107,12 +108,18 @@ export class ProductService {
 
     const sizeProduct = new SizeProductDTO(product);
 
-    const returnCorreios = await this.correiosService.priceDelivery(
-      CdServiceEnum.PAC,
-      cep,
-      sizeProduct,
-    );
+    const resultPrice = await Promise.all([
+      this.correiosService.priceDelivery(CdServiceEnum.PAC, cep, sizeProduct),
+      this.correiosService.priceDelivery(CdServiceEnum.SEDEX, cep, sizeProduct),
+      this.correiosService.priceDelivery(
+        CdServiceEnum.SEDEX_10,
+        cep,
+        sizeProduct,
+      ),
+    ]).catch(() => {
+      throw new BadRequestException('Error find delivery price');
+    });
 
-    return returnCorreios;
+    return new ReturnPriceDeliveryDto(resultPrice);
   }
 }
