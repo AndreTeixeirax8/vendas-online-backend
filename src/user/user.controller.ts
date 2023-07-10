@@ -13,25 +13,31 @@ export class UserController {
 
    constructor(private readonly userService:UserService){}
 
+   @Roles(UserType.ROOT)
+   @Post('/admin')
+   async createAdmin(@Body() createUser: CreateUserDto): Promise<UserEntity> {
+     return this.userService.createUser(createUser, UserType.ADMIN);
+   }
+
    @UsePipes(ValidationPipe)
     @Post()
     async createUsers(@Body() createUserDto:CreateUserDto):Promise<UserEntity>{
         return this.userService.createUser(createUserDto)
      }
 
-     @Roles(UserType.ADMIN, UserType.USER)
+     @Roles(UserType.ADMIN, UserType.ROOT)
     @Get('/all')
     async getAllUsers():Promise<ReturnUserDto[]>{
        return (await this.userService.getAllUser()).map((userEntity) => new ReturnUserDto(userEntity))
     }
-    @Roles(UserType.ADMIN)
+    @Roles(UserType.ADMIN,UserType.ROOT)
     @Get('/:userId')
     async getUserById(@Param('userId') userId:number): Promise<ReturnUserDto>{
       return new ReturnUserDto(await this.userService.getUserByIdUsingRelations(userId))
     }
 
 
-    @Roles(UserType.ADMIN, UserType.USER)
+    @Roles(UserType.ADMIN, UserType.USER,UserType.ROOT)
     @Patch()
     @UsePipes(ValidationPipe)
     async updatePasswordUser(
@@ -41,7 +47,7 @@ export class UserController {
       return this.userService.updatePasswordUser(updatePasswordDTO, userId);
     }
 
-    @Roles(UserType.ADMIN, UserType.USER)
+    @Roles(UserType.ADMIN, UserType.USER,UserType.ROOT)
     @Get()
     async getInfoUser(@UserId() userId:number):Promise<ReturnUserDto>{
       return new ReturnUserDto( await this.userService.getUserByIdUsingRelations(userId))

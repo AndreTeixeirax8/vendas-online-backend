@@ -6,7 +6,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/user/enum/user-type.enum';
 import { UserId } from 'src/decorators/use-id.decorator';
 
-@Roles(UserType.ADMIN)
+@Roles(UserType.ADMIN,UserType.USER,UserType.ROOT)
 @Controller('address')
 export class AddressController {
 

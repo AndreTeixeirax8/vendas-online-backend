@@ -1,6 +1,9 @@
 export enum UserType{
 
     USER =1,
-    ADMIN = 2
+    ROOT = 2,
+    ADMIN = 3
+
+
 
 }

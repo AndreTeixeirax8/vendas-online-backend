@@ -6,7 +6,7 @@ import { ReturnCategory } from './dtos/return-category.dto';
 import { CreateCategoryDto } from './dtos/create-category.dto';
 import { CategoryEntity } from './entities/category.entity';
 
-@Roles(UserType.ADMIN)
+@Roles(UserType.ADMIN,UserType.USER,UserType.ROOT)
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
@@ -16,7 +16,7 @@ export class CategoryController {
     return this.categoryService.findAllCategories();
   }
 
-  @Roles(UserType.ADMIN, UserType.USER)
+  @Roles(UserType.ADMIN, UserType.ROOT)
   @UsePipes(ValidationPipe)
   @Post()
   async createCategory(

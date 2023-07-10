@@ -10,7 +10,7 @@ import { ReturnCartDTO } from './dtos/return-cart.dto';
 import { DeleteResult } from 'typeorm';
 import { UpdateCartDTO } from './dtos/update-cart.dto';
 
-@Roles(UserType.USER,UserType.ADMIN)
+@Roles(UserType.USER,UserType.ADMIN,UserType.ROOT)
 @Controller('cart')
 export class CartController {
     constructor(private readonly cartService: CartService) {}
