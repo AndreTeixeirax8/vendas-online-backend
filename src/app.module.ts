@@ -55,5 +55,5 @@ export class AppModule {}
 /**Link do github com o projeto completo do professor Julio
  * https://github.com/juliossena/vendas-online-backend
  * https://github.com/juliossena/vendas-online-backend/commits
- * proxima aula   feat: repare unit test  ab5b4c9 primeira pagina
+ * proxima aula  feat: insert endpoint delete category  1e6bf26 primeira pagina
  */
