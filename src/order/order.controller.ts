@@ -6,6 +6,7 @@ import {
     Post,
     UsePipes,
     ValidationPipe,
+    Res
   } from '@nestjs/common';
 
   import { OrderService } from './order.service';
@@ -15,6 +16,7 @@ import { OrderEntity } from './entities/order.entity';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/user/enum/user-type.enum';
 import { ReturnOrderDTO } from './dtos/return-order.dto';
+import { Response } from 'express';
   
 @Roles(UserType.ADMIN,UserType.USER,UserType.ROOT)
   @Controller('order')
@@ -31,8 +33,20 @@ import { ReturnOrderDTO } from './dtos/return-order.dto';
     }
 
     @Get()
-    async findOrdersByUserId(@UserId() userId: number): Promise<OrderEntity[]> {
-      return this.orderService.findOrdersByUserId(userId);
+    async findOrdersByUserId(
+      @UserId() userId: number,
+      @Res({ passthrough: true }) res?: Response,
+    ): Promise<OrderEntity[]> {
+      const orders = await this.orderService
+        .findOrdersByUserId(userId)
+        .catch(() => undefined);
+  
+      if (orders) {
+        return orders;
+      }
+  
+      res.status(204).send();
+      return;
     }
 
     @Roles(UserType.ADMIN,UserType.ROOT)

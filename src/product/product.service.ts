@@ -52,10 +52,10 @@ export class ProductService {
       take: size,
       skip,
     });
-
+   /* Removido na ultima aula
     if (!products || products.length === 0) {
       throw new NotFoundException('Not found products');
-    }
+    }*/
 
     return new Pagination(
       new PaginationMeta(
