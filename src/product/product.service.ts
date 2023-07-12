@@ -1,16 +1,25 @@
-import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryService } from '../category/category.service';
-import { DeleteResult, ILike, In, Repository } from 'typeorm';
+import { DeleteResult, ILike, In, Like, Repository } from 'typeorm';
 import { CreateProductDTO } from './dtos/create-product.dto';
 import { ProductEntity } from './entities/product.entity';
-import { UpdateProductDTO } from './dtos/update-product.dto';
 import { CountProduct } from './dtos/count-product.dto';
-import { CorreiosService } from 'src/correios/correios.service';
+import { CorreiosService } from '../correios/correios.service';
+import { CdServiceEnum } from '../correios/enums/cd-service.enum';
+import { Pagination, PaginationMeta } from 'src/dtos/pagination.dto';
+import { UpdateProductDTO } from './dtos/update-product.dto';
 import { SizeProductDTO } from 'src/correios/dtos/size-product.dto';
-import { CdServiceEnum } from 'src/correios/enums/cd-service.enum';
 import { ReturnPriceDeliveryDto } from './return-price-delivery.dto';
 
+const DEFAULT_PAGE_SIZE = 10;
+const FIRST_PAGE = 1;
 
 @Injectable()
 export class ProductService {
@@ -20,10 +29,16 @@ export class ProductService {
 
     @Inject(forwardRef(() => CategoryService))
     private readonly categoryService: CategoryService,
+
     private readonly correiosService: CorreiosService,
   ) {}
 
-  async findAllPage(search?: string): Promise<ProductEntity[]> {
+  async findAllPage(
+    search?: string,
+    size = DEFAULT_PAGE_SIZE,
+    page = FIRST_PAGE,
+  ): Promise<Pagination<ProductEntity[]>> {
+    const skip = (page - 1) * size;
     let findOptions = {};
     if (search) {
       findOptions = {
@@ -32,13 +47,25 @@ export class ProductService {
         },
       };
     }
-    const products = await this.productRepository.find(findOptions);
+    const [products, total] = await this.productRepository.findAndCount({
+      ...findOptions,
+      take: size,
+      skip,
+    });
 
     if (!products || products.length === 0) {
       throw new NotFoundException('Not found products');
     }
 
-    return products;
+    return new Pagination(
+      new PaginationMeta(
+        Number(size),
+        total,
+        Number(page),
+        Math.ceil(total / size),
+      ),
+      products,
+    );
   }
 
   async findAll(
@@ -95,6 +122,7 @@ export class ProductService {
           category: true,
         }
       : undefined;
+
     const product = await this.productRepository.findOne({
       where: {
         id: productId,
@@ -154,6 +182,4 @@ export class ProductService {
 
     return new ReturnPriceDeliveryDto(resultPrice);
   }
-
- 
 }
